@@ -108,6 +108,13 @@
         .pdf-btn:hover { background-color: #2b74d8; }
         .reset-btn { background-color: #999; margin-top: 10px; width: auto; padding: 10px 20px; font-size: 14px; }
         .reset-btn:hover { background-color: #777; }
+        /* タッチデバイス向け：hoverの誤発火を防ぐ */
+        @media (hover: none) {
+            button:hover { transform: none !important; box-shadow: none !important; }
+            .pdf-btn:hover  { background-color: #4a90e2 !important; }
+            .reset-btn:hover { background-color: #999 !important; }
+            button:active   { transform: scale(0.97) !important; }
+        }
 
         /* ── TOOLBAR ── */
         #toolbar {
@@ -722,6 +729,176 @@
             #editFloatBtn, #editOverlay, #tokenOverlay { display: none !important; }
         }
 
+        /* ════════════════════════════════════════════
+           ── MOBILE RESPONSIVE (≤ 768px) ──
+           印刷レイアウトはそのまま維持し、
+           スマホ表示のみ縦スクロール型に変換
+           ════════════════════════════════════════════ */
+        @media screen and (max-width: 768px) {
+
+            /* ── Body ── */
+            body {
+                padding: 12px 12px 100px;
+                align-items: stretch;
+            }
+
+            /* ── Page title ── */
+            #pageTitle {
+                width: 100%;
+                margin-bottom: 12px;
+            }
+            .title-jp { font-size: 13px; letter-spacing: 4px; }
+            .title-en { font-size: 9px; letter-spacing: 3px; }
+
+            /* ── Seal banner ── */
+            #sealBanner { width: 100%; }
+
+            /* ── Input form ── */
+            .input-container {
+                width: 100%;
+                max-width: 100%;
+                padding: 20px 16px;
+            }
+
+            /* ── Date input: iOSの灰色ボックス解消 ── */
+            input[type="date"] {
+                -webkit-appearance: none;
+                appearance: none;
+                background-color: #fff;
+                color: #333;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                padding: 10px;
+                font-size: 16px;
+                width: 100%;
+                display: block;
+            }
+            input[type="date"]::-webkit-date-and-time-value {
+                text-align: left;
+            }
+
+            /* ── Toolbar ── */
+            #toolbar {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* ═══════════════════════════════════════
+               #printArea: A4固定サイズ → 縦スクロール
+               ═══════════════════════════════════════ */
+            #printArea {
+                width: 100% !important;
+                height: auto !important;
+                min-height: unset !important;
+                overflow: visible !important;
+                padding: 14px 12px 20px !important;
+                flex-direction: column !important;
+                gap: 12px;
+            }
+
+            /* ── Sheet header ── */
+            .sheet-header { margin-bottom: 0; }
+            .sheet-title  { font-size: 18px; line-height: 1.3; }
+            .sheet-date   { font-size: 14px; }
+
+            /* ── Stats bar: KIN と音を縦並びに ── */
+            .stats-bar {
+                flex-direction: column;
+                gap: 10px;
+                padding: 12px;
+            }
+            .stats-item.kin-box {
+                border-right: none;
+                border-bottom: 2px dashed #ffb6c1;
+                padding-right: 0;
+                padding-bottom: 10px;
+                flex-direction: row;
+                justify-content: center;
+                gap: 16px;
+                align-items: center;
+            }
+            .stats-item.tone-box {
+                padding-left: 0;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .stats-label { font-size: 13px; }
+            .stats-val   { font-size: 34px; }
+            .tone-desc   { font-size: 13px; padding: 0; }
+            .tone-number-group { min-width: 60px; }
+
+            /* ── Main content: 2カラム → 縦1列 ── */
+            .main-content {
+                flex-direction: column !important;
+                gap: 12px;
+                flex: none;
+            }
+
+            /* ── Seal columns ── */
+            .seal-column { padding: 10px; }
+            .col-header  { gap: 10px; }
+            .col-header img { width: 56px; height: 56px; }
+            .col-label   { font-size: 11px; }
+            .col-name    { font-size: 20px; }
+            .chakra-tag  { font-size: 11px; padding: 3px 6px; }
+            .col-title-group { flex-direction: column; gap: 6px; }
+            .title-right { width: 100%; }
+            .chakra-subtitle { font-size: 10px; }
+            .chakra-text     { font-size: 12px; }
+            .desc-box { font-size: 13px; overflow: visible; flex: none; }
+            .relations-box { flex-wrap: wrap; gap: 6px; }
+            .rel-badge { font-size: 11px; padding: 4px 8px; }
+            .rel-badge span { font-size: 13px; }
+
+            /* ── Footer: 縦1列 ── */
+            .footer-area {
+                flex-direction: column !important;
+                flex: none !important;
+                gap: 10px;
+            }
+            .footer-left { gap: 10px; }
+            .special-kin-section {
+                width: 100% !important;
+                flex-direction: row;
+                gap: 10px;
+            }
+            .special-box { flex: 1; }
+
+            .eki-title, .yearly-title { font-size: 13px; }
+            .eki-name  { font-size: 17px; }
+            .eki-desc  { font-size: 13px; }
+            .yearly-period { font-size: 13px; }
+            .yearly-era    { font-size: 15px; }
+            .yearly-kin-val { font-size: 22px; }
+            .yearly-kin-label { font-size: 11px; }
+            .sp-label { font-size: 12px; }
+            .sp-val   { font-size: 22px; }
+
+            /* ── Edit float button ── */
+            #editFloatBtn {
+                bottom: 16px; right: 12px;
+                font-size: 12px;
+                padding: 7px 14px;
+            }
+
+            /* ── Edit modal ── */
+            #editPanel {
+                max-height: 92vh;
+                border-radius: 12px;
+            }
+
+            /* ── Token modal ── */
+            #tokenPanel { padding: 20px 16px 18px; }
+        }
+
+        /* 超小型画面（375px以下）追加調整 */
+        @media screen and (max-width: 375px) {
+            .sheet-title { font-size: 15px; }
+            .col-header img { width: 48px; height: 48px; }
+            .col-name { font-size: 18px; }
+            .stats-val { font-size: 28px; }
+        }
+
         /* ── PRINT MEDIA (fallback) ── */
         @media print {
             @page {
@@ -938,10 +1115,10 @@
 /* ═══════════════════════════════════════════════════════
    ▼ GitHub 設定（リポジトリに合わせて変更してください）
    ═══════════════════════════════════════════════════════ */
-const GITHUB_OWNER  = 'scnyan';    // ← GitHubユーザー名
-const GITHUB_REPO   = 'MayaSesionMaker';        // ← リポジトリ名
-const GITHUB_BRANCH = 'main';             // ← ブランチ名
-const GITHUB_FILE   = 'maya_data.json';   // ← データファイルのパス（リポジトリルートからの相対パス）
+const GITHUB_OWNER  = 'scnyan';
+const GITHUB_REPO   = 'MayaSesionMaker';
+const GITHUB_BRANCH = 'main';
+const GITHUB_FILE   = 'maya_data.json';
 /* ═══════════════════════════════════════════════════════ */
 
 /* ── STATIC DATA（編集不可・シール名のみ） ── */
