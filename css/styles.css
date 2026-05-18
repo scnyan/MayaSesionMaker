@@ -33,7 +33,6 @@
             border-radius: 0;
             box-shadow: 0 10px 26px rgba(216,27,96,0.18);
             backdrop-filter: blur(12px);
-            transform: translateZ(0);
         }
         .app-logo {
             width: 112px;
@@ -995,19 +994,12 @@
             z-index: 10;
             order: 2;
             width: 100%;
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(216,27,96,0.28) transparent;
-            touch-action: pan-x;
+            overflow: hidden;
             margin-top: 10px;
             padding: 18px 0 6px;
             background: transparent;
             border: 0;
             box-shadow: none;
-            mask-image: linear-gradient(90deg, transparent 0, #000 34px, #000 calc(100% - 34px), transparent 100%);
-            -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 34px, #000 calc(100% - 34px), transparent 100%);
         }
         #pageTitle {
             position: relative;
@@ -1021,14 +1013,6 @@
             border: 0;
             box-shadow: none;
         }
-        #sealBanner::-webkit-scrollbar {
-            height: 6px;
-        }
-        #sealBanner::-webkit-scrollbar-thumb {
-            background: rgba(216,27,96,0.24);
-            border-radius: 999px;
-        }
-
         /* 左右フェード */
         #sealBanner::before,
         #sealBanner::after {
@@ -1048,11 +1032,8 @@
             gap: 46px;
             width: max-content;
             animation: scrollRight 35s linear infinite;
-            padding: 0 18px 8px;
         }
         .seal-track:hover { animation-play-state: paused; }
-        #sealBanner:active .seal-track,
-        #sealBanner:focus-within .seal-track { animation-play-state: paused; }
 
         @keyframes scrollLeft {
             0%   { transform: translateX(0); }
@@ -1338,6 +1319,8 @@
                 margin: 0;
                 padding: 9px 10px;
                 gap: 8px;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
             }
             .site-brand {
                 gap: 0;
@@ -1381,6 +1364,8 @@
                 max-height: calc(100svh - 72px);
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
+                transform: none;
+                transition: none;
             }
             .intro-section {
                 min-height: auto;
@@ -1443,17 +1428,10 @@
                 margin-right: -12px;
                 padding-left: 12px;
                 padding-right: 12px;
-                mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
-                -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
             }
             .seal-track {
                 gap: 38px;
-                animation: none;
-                padding: 0 22px 8px;
-                transform: none;
-            }
-            .seal-item:nth-child(n+21) {
-                display: none;
+                animation-duration: 42s;
             }
             .seal-item img {
                 width: 68px;
