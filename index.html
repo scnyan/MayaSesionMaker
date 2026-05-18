@@ -725,8 +725,65 @@
         .tbtn-clear   { background: white; color: #999; border: 1px solid #ddd; font-size: 12px; }
         .tbtn-clear:hover { background: #fafafa; transform: none; }
 
+        #pdfFallbackOverlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.58);
+            z-index: 4000;
+            align-items: center; justify-content: center;
+            padding: 16px;
+        }
+        #pdfFallbackOverlay.active { display: flex; }
+        #pdfFallbackPanel {
+            width: 100%; max-width: 420px;
+            background: #fff;
+            border-radius: 14px;
+            padding: 22px 18px 18px;
+            box-shadow: 0 24px 70px rgba(0,0,0,0.35);
+            text-align: center;
+        }
+        #pdfFallbackPanel h3 {
+            font-size: 17px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        #pdfFallbackPanel p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+        .pdf-fallback-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .pdf-open-btn,
+        .pdf-close-btn {
+            width: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .pdf-open-btn {
+            background: #4a90e2;
+            color: #fff;
+        }
+        .pdf-close-btn {
+            background: #eee;
+            color: #555;
+        }
+
         @media print {
-            #editFloatBtn, #editOverlay, #tokenOverlay { display: none !important; }
+            #editFloatBtn, #editOverlay, #tokenOverlay, #pdfFallbackOverlay { display: none !important; }
         }
 
         /* ════════════════════════════════════════════
@@ -900,9 +957,61 @@
         }
 
         /* ── PRINT MEDIA (fallback) ── */
+        body.pdf-capture-mode {
+            width: 297mm !important;
+            min-width: 297mm !important;
+            height: 210mm !important;
+            min-height: 210mm !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            overflow: hidden !important;
+            background: #fff !important;
+            display: block !important;
+        }
+        body.pdf-capture-mode #inputForm,
+        body.pdf-capture-mode #toolbar,
+        body.pdf-capture-mode #particles,
+        body.pdf-capture-mode #loadingOverlay,
+        body.pdf-capture-mode #sealBanner,
+        body.pdf-capture-mode #pageTitle,
+        body.pdf-capture-mode #editFloatBtn,
+        body.pdf-capture-mode #editOverlay,
+        body.pdf-capture-mode #tokenOverlay,
+        body.pdf-capture-mode #pdfFallbackOverlay {
+            display: none !important;
+        }
+        body.pdf-capture-mode #printArea {
+            display: flex !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 297mm !important;
+            min-width: 297mm !important;
+            max-width: 297mm !important;
+            height: 210mm !important;
+            min-height: 210mm !important;
+            max-height: 210mm !important;
+            padding: 8mm !important;
+            margin: 0 !important;
+            gap: 0 !important;
+            overflow: hidden !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            transform: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            background: #fff !important;
+        }
+        body.pdf-capture-mode #printArea *,
+        body.pdf-capture-mode #printArea *::before,
+        body.pdf-capture-mode #printArea *::after {
+            animation: none !important;
+            transition: none !important;
+        }
+
         @media print {
             @page {
-                size: A4 landscape;
+                size: 297mm 210mm;
                 margin: 0;
             }
             * {
@@ -939,6 +1048,16 @@
                 overflow: hidden !important;
                 padding: 8mm !important;
                 margin: 0 !important;
+                page-break-before: avoid !important;
+                page-break-after: avoid !important;
+                page-break-inside: avoid !important;
+                break-before: avoid-page !important;
+                break-after: avoid-page !important;
+                break-inside: avoid-page !important;
+            }
+            #printArea > * {
+                page-break-inside: avoid !important;
+                break-inside: avoid-page !important;
             }
             img {
                 display: block !important;
@@ -1570,8 +1689,139 @@ function handleCreateClick(e) {
 }
 
 /* ── PDF DOWNLOAD ── */
+const PDF_LIBS = {
+    html2canvas: 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js',
+    jspdf: 'https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js'
+};
+let activePdfUrl = '';
+
+function loadScriptOnce(src, globalCheck) {
+    if (globalCheck()) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+        const existing = document.querySelector('script[src="' + src + '"]');
+        if (existing) {
+            existing.addEventListener('load', () => resolve(), { once: true });
+            existing.addEventListener('error', () => reject(new Error('script load failed')), { once: true });
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error('script load failed'));
+        document.head.appendChild(script);
+    });
+}
+
+function isMobileOrInAppBrowser() {
+    const ua = navigator.userAgent || '';
+    const isTouchSmall = window.matchMedia('(max-width: 1024px), (pointer: coarse)').matches;
+    const isInApp = /Line\/|FBAN|FBAV|Instagram|MicroMessenger|Twitter|GSA|CriOS\/.*Mobile/i.test(ua);
+    const isIOS = /iPad|iPhone|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    return isTouchSmall || isInApp || isIOS;
+}
+
+function showPrintLoading(message) {
+    const overlay = document.getElementById('loadingOverlay');
+    const text = overlay ? overlay.querySelector('.loader-text') : null;
+    if (text && message) text.textContent = message;
+    if (overlay) overlay.classList.add('active');
+}
+
+function hidePrintLoading() {
+    const overlay = document.getElementById('loadingOverlay');
+    if (overlay) overlay.classList.remove('active');
+}
+
+function closePdfFallback() {
+    const overlay = document.getElementById('pdfFallbackOverlay');
+    if (overlay) overlay.classList.remove('active');
+}
+
+function showPdfFallback(url) {
+    const overlay = document.getElementById('pdfFallbackOverlay');
+    const link = document.getElementById('pdfOpenLink');
+    if (!overlay || !link) return;
+    link.href = url;
+    overlay.classList.add('active');
+}
+
+async function createA4LandscapePdf() {
+    const area = document.getElementById('printArea');
+    if (!area || getComputedStyle(area).display === 'none') {
+        throw new Error('sheet is not visible');
+    }
+
+    await Promise.all([
+        loadScriptOnce(PDF_LIBS.html2canvas, () => !!window.html2canvas),
+        loadScriptOnce(PDF_LIBS.jspdf, () => !!(window.jspdf && window.jspdf.jsPDF))
+    ]);
+
+    const previousScrollX = window.scrollX;
+    const previousScrollY = window.scrollY;
+    document.body.classList.add('pdf-capture-mode');
+    window.scrollTo(0, 0);
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+    try {
+        const canvas = await window.html2canvas(area, {
+            backgroundColor: '#ffffff',
+            scale: Math.min(2, window.devicePixelRatio || 1.5),
+            useCORS: true,
+            logging: false,
+            width: area.offsetWidth,
+            height: area.offsetHeight,
+            windowWidth: area.offsetWidth,
+            windowHeight: area.offsetHeight,
+            scrollX: 0,
+            scrollY: 0
+        });
+        const pdf = new window.jspdf.jsPDF({
+            orientation: 'landscape',
+            unit: 'mm',
+            format: 'a4',
+            compress: true
+        });
+        pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 297, 210);
+        return pdf.output('blob');
+    } finally {
+        document.body.classList.remove('pdf-capture-mode');
+        window.scrollTo(previousScrollX, previousScrollY);
+    }
+}
+
+async function openGeneratedPdf() {
+    showPrintLoading('PDFを作成中...');
+    try {
+        const blob = await createA4LandscapePdf();
+        const file = new File([blob], 'maya-session-sheet.pdf', { type: 'application/pdf' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+                await navigator.share({ files: [file], title: 'マヤ暦セッションシート' });
+                return;
+            } catch (shareErr) {
+                if (shareErr && shareErr.name === 'AbortError') return;
+            }
+        }
+
+        if (activePdfUrl) URL.revokeObjectURL(activePdfUrl);
+        activePdfUrl = URL.createObjectURL(blob);
+        const opened = window.open(activePdfUrl, '_blank', 'noopener');
+        if (!opened) showPdfFallback(activePdfUrl);
+    } catch (err) {
+        console.error(err);
+        alert('PDF作成に失敗しました。外部ブラウザで開いてから、もう一度「印刷する」を押してください。');
+    } finally {
+        hidePrintLoading();
+    }
+}
+
 function downloadPDF(e) {
     addRipple(e.currentTarget, e);
+    if (isMobileOrInAppBrowser()) {
+        openGeneratedPdf();
+        return;
+    }
     window.print();
 }
 
@@ -1747,6 +1997,20 @@ function resetForm(e) {
             <button class="tbtn tbtn-clear" onclick="clearToken()">🗑 認証をクリア</button>
             <button class="tbtn tbtn-cancel" onclick="closeTokenModal()">キャンセル</button>
             <button class="tbtn tbtn-confirm" onclick="confirmToken()">設定して保存</button>
+        </div>
+    </div>
+</div>
+
+<div id="pdfFallbackOverlay" aria-hidden="true">
+    <div id="pdfFallbackPanel" role="dialog" aria-modal="true" aria-labelledby="pdfFallbackTitle">
+        <h3 id="pdfFallbackTitle">PDFの準備ができました</h3>
+        <p>
+            LINEなどのアプリ内ブラウザでは印刷画面を開けないことがあります。
+            下のボタンからPDFを開いて、共有または保存してください。
+        </p>
+        <div class="pdf-fallback-actions">
+            <a id="pdfOpenLink" class="pdf-open-btn" href="#" target="_blank" rel="noopener">PDFを開く</a>
+            <button type="button" class="pdf-close-btn" onclick="closePdfFallback()">閉じる</button>
         </div>
     </div>
 </div>
