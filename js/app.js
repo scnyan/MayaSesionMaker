@@ -225,6 +225,7 @@ async function initApp() {
 
 /* ── APP INIT ── */
 initDateSelects();
+initSettingsOverlay();
 initApp();
 
 function initDateSelects() {
@@ -285,7 +286,10 @@ function setPreviewMode(mode, e) {
 }
 
 function toggleSettingsMenu(e) {
-    if (e) e.stopPropagation();
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
     if (e) addRipple(e.currentTarget, e);
     const overlay = document.getElementById('settingsOverlay');
     if (!overlay) return;
@@ -297,13 +301,33 @@ function toggleSettingsMenu(e) {
 }
 
 function closeSettingsMenu(e) {
-    if (e) e.stopPropagation();
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
     const overlay = document.getElementById('settingsOverlay');
     overlay?.classList.remove('open');
     overlay?.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('settings-open');
     document.getElementById('settingsMenu')?.classList.remove('open');
     document.querySelector('.settings-trigger')?.setAttribute('aria-expanded', 'false');
+}
+
+function initSettingsOverlay() {
+    const overlay = document.getElementById('settingsOverlay');
+    const closeBtn = document.querySelector('.settings-close');
+    if (!overlay) return;
+
+    const closeFromBackdrop = (e) => {
+        if (e.target === overlay) closeSettingsMenu(e);
+    };
+    overlay.addEventListener('pointerup', closeFromBackdrop);
+    overlay.addEventListener('touchend', closeFromBackdrop, { passive: false });
+    closeBtn?.addEventListener('pointerup', closeSettingsMenu);
+    closeBtn?.addEventListener('touchend', closeSettingsMenu, { passive: false });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeSettingsMenu(e);
+    });
 }
 
 function openAdminTextEditor(e) {
