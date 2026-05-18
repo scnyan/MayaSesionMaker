@@ -1620,10 +1620,10 @@
 
         /* 超小型画面（375px以下）追加調整 */
         @media screen and (max-width: 375px) {
-            .sheet-title { font-size: 15px; }
-            .col-header img { width: 48px; height: 48px; }
-            .col-name { font-size: 18px; }
-            .stats-val { font-size: 28px; }
+            body.fit-preview-mode .sheet-title { font-size: 17px; }
+            body.fit-preview-mode .col-header img { width: 48px; height: 48px; }
+            body.fit-preview-mode .col-name { font-size: 18px; }
+            body.fit-preview-mode .stats-val { font-size: 28px; }
         }
 
         /* ── PRINT MEDIA (fallback) ── */
