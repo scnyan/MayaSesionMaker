@@ -1026,6 +1026,8 @@
             order: 2;
             width: 100%;
             overflow: hidden;
+            mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 58px), transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 58px), transparent 100%);
             margin-top: 10px;
             padding: 18px 0 6px;
             background: transparent;
@@ -1044,20 +1046,6 @@
             border: 0;
             box-shadow: none;
         }
-        /* 左右フェード */
-        #sealBanner::before,
-        #sealBanner::after {
-            content: none;
-        }
-        #sealBanner::before {
-            left: 0;
-            background: linear-gradient(90deg, #ffe4e1, transparent);
-        }
-        #sealBanner::after {
-            right: 0;
-            background: linear-gradient(-90deg, #ffe4e1, transparent);
-        }
-
         .seal-track {
             display: flex;
             gap: 46px;
