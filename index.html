@@ -27,7 +27,8 @@
             align-items: center;
             justify-content: space-between;
             gap: 16px;
-            margin: 18px 0 18px;
+            order: 1;
+            margin: 18px 0 0;
             padding: 12px 16px;
             background: rgba(255,255,255,0.78);
             border: 1px solid rgba(255,182,193,0.8);
@@ -35,7 +36,25 @@
             box-shadow: 0 8px 24px rgba(255,143,163,0.16);
             backdrop-filter: blur(10px);
         }
+        .app-logo {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff8fa3, #d81b60);
+            box-shadow: 0 6px 16px rgba(216,27,96,0.22);
+            flex: 0 0 auto;
+        }
         .site-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+        .site-brand-text {
             display: flex;
             flex-direction: column;
             gap: 2px;
@@ -53,6 +72,222 @@
             font-weight: bold;
             letter-spacing: 3px;
             text-transform: uppercase;
+        }
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
+        }
+        .header-link,
+        .settings-trigger {
+            width: auto;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 13px;
+            color: #555;
+            background: transparent;
+            box-shadow: none;
+            border: 1px solid transparent;
+        }
+        .header-link:hover,
+        .settings-trigger:hover {
+            color: #d81b60;
+            background: #fff0f5;
+            border-color: #ffb6c1;
+            transform: none;
+            box-shadow: none;
+        }
+        .settings-menu {
+            position: relative;
+        }
+        .settings-panel {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            width: 260px;
+            display: none;
+            padding: 14px;
+            background: #fff;
+            border: 1px solid #ffb6c1;
+            border-radius: 8px;
+            box-shadow: 0 18px 45px rgba(0,0,0,0.16);
+            text-align: left;
+        }
+        .settings-menu.open .settings-panel {
+            display: block;
+        }
+        .settings-section + .settings-section {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #ffb6c1;
+        }
+        .settings-heading {
+            color: #d81b60;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            color: #555;
+            font-size: 12px;
+            line-height: 1.5;
+            padding: 6px 0;
+        }
+        .settings-status {
+            color: #999;
+            white-space: nowrap;
+        }
+        .admin-edit-btn {
+            width: 100%;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-size: 13px;
+            background: #ff8fa3;
+            color: #fff;
+            box-shadow: none;
+        }
+        .admin-edit-btn:hover {
+            background: #ff6b84;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .intro-section {
+            position: relative;
+            z-index: 10;
+            order: 3;
+            width: min(100%, 1120px);
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(360px, 520px);
+            gap: 36px;
+            align-items: center;
+            padding: 42px 0 28px;
+        }
+        .intro-copy {
+            text-align: left;
+        }
+        .intro-eyebrow {
+            color: #c0737a;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+        }
+        .intro-title {
+            color: #333;
+            font-size: 48px;
+            line-height: 1.12;
+            letter-spacing: 0;
+            margin: 0 0 14px;
+        }
+        .intro-text {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.8;
+            max-width: 540px;
+        }
+        .sample-preview {
+            background: rgba(255,255,255,0.82);
+            border: 1px solid rgba(255,182,193,0.85);
+            border-radius: 8px;
+            box-shadow: 0 18px 45px rgba(216,27,96,0.13);
+            padding: 12px;
+        }
+        .sample-sheet-art {
+            width: 100%;
+            aspect-ratio: 297 / 210;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 14px;
+            border-radius: 6px;
+            background: #fff;
+            overflow: hidden;
+        }
+        .sample-sheet-title {
+            text-align: center;
+            color: #333;
+            font-size: 17px;
+            font-weight: bold;
+            border-bottom: 2px solid #ffb6c1;
+            padding-bottom: 6px;
+        }
+        .sample-sheet-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .sample-stat {
+            background: #fff0f5;
+            border: 2px dashed #ff8fa3;
+            border-radius: 8px;
+            padding: 8px;
+            color: #d81b60;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .sample-columns {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            min-height: 0;
+        }
+        .sample-column {
+            border: 2px solid #ffb6c1;
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .sample-column-head {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        .sample-column-head img {
+            width: 42px;
+            height: 42px;
+            border-radius: 6px;
+            border: 2px solid #ff8fa3;
+        }
+        .sample-lines {
+            display: grid;
+            gap: 5px;
+        }
+        .sample-lines span {
+            height: 8px;
+            border-radius: 999px;
+            background: #f4dfe5;
+        }
+        .sample-preview-fallback {
+            display: inline-flex;
+            justify-content: center;
+            place-items: center;
+            margin-top: 8px;
+            color: #d81b60;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .page-footer {
+            position: relative;
+            z-index: 10;
+            order: 6;
+            width: min(100%, 1120px);
+            padding: 28px 0 0;
+            color: #c0737a;
+            font-size: 12px;
+            text-align: center;
         }
 
         /* ── PARTICLE BACKGROUND ── */
@@ -82,6 +317,7 @@
         .input-container {
             position: relative;
             z-index: 10;
+            order: 4;
             background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,250,251,0.98));
             padding: 28px 26px;
             border-radius: 8px;
@@ -89,6 +325,7 @@
             box-shadow: 0 16px 36px rgba(216,27,96,0.11);
             text-align: center;
             width: 340px;
+            align-self: center;
             margin-bottom: 20px;
             animation: slideDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
@@ -201,6 +438,7 @@
         #toolbar {
             position: relative;
             z-index: 10;
+            order: 4;
             margin-bottom: 15px;
             display: none;
             align-items: center;
@@ -226,6 +464,7 @@
         #printArea {
             position: relative;
             z-index: 10;
+            order: 5;
             width: 297mm;
             height: 210mm;
             background-color: white;
@@ -505,6 +744,7 @@
         #pageTitle {
             position: relative;
             z-index: 10;
+            display: none;
             text-align: center;
             margin-bottom: 20px;
             animation: slideDown 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -566,9 +806,10 @@
             #pageTitle {
             position: relative;
             z-index: 10;
+            order: 2;
             width: 100%;
             overflow: hidden;
-            margin-top: 0;
+            margin-top: 18px;
             padding: 12px 0;
             background: linear-gradient(135deg, #fff0f5 0%, #ffffff 50%, #fff0f5 100%);
             border-top: 2px solid #ffb6c1;
@@ -599,13 +840,17 @@
             display: flex;
             gap: 20px;
             width: max-content;
-            animation: scrollLeft 35s linear infinite;
+            animation: scrollRight 35s linear infinite;
         }
         .seal-track:hover { animation-play-state: paused; }
 
         @keyframes scrollLeft {
             0%   { transform: translateX(0); }
             100% { transform: translateX(-50%); }
+        }
+        @keyframes scrollRight {
+            0%   { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
         }
 
         .seal-item {
@@ -890,8 +1135,36 @@
                 margin: 0 0 12px;
                 padding: 10px 12px;
             }
+            .site-brand { gap: 8px; }
+            .site-brand-text { display: none; }
+            .app-logo { width: 30px; height: 30px; }
             .site-brand-main { font-size: 13px; }
             .site-brand-sub { font-size: 9px; letter-spacing: 2px; }
+            .header-nav { gap: 4px; }
+            .header-link,
+            .settings-trigger { font-size: 12px; padding: 7px 9px; }
+            .settings-panel {
+                position: fixed;
+                top: 58px;
+                right: 12px;
+                left: 12px;
+                width: auto;
+            }
+            .intro-section {
+                grid-template-columns: 1fr;
+                gap: 18px;
+                padding: 20px 0 18px;
+            }
+            .intro-copy { text-align: center; }
+            .intro-eyebrow { font-size: 10px; letter-spacing: 3px; }
+            .intro-title { font-size: 32px; }
+            .intro-text {
+                font-size: 13px;
+                margin: 0 auto;
+            }
+            .sample-preview { padding: 8px; }
+            .sample-sheet-title { font-size: 13px; }
+            .sample-stat { font-size: 18px; padding: 6px; }
 
             /* ── Page title ── */
             #pageTitle {
@@ -931,9 +1204,29 @@
             /* ── Toolbar ── */
             #toolbar {
                 width: 100%;
-                justify-content: center;
+                display: none;
+                grid-template-columns: 1fr 1fr;
+                align-items: center;
+                justify-content: stretch;
+                gap: 10px;
             }
+            #toolbar[style*="flex"] { display: grid !important; }
             .preview-mode-toggle { display: flex; }
+            .preview-mode-toggle {
+                grid-column: 1 / -1;
+                width: 100%;
+            }
+            .preview-mode-toggle .layout-btn {
+                flex: 1;
+                min-width: 0;
+                padding: 8px 6px;
+            }
+            #toolbar .pdf-btn,
+            #toolbar .reset-btn {
+                width: 100%;
+                margin-top: 0;
+                padding: 10px 8px;
+            }
 
             /* ═══════════════════════════════════════
                #printArea: A4固定サイズ → 縦スクロール
@@ -1073,6 +1366,8 @@
         body.pdf-capture-mode #particles,
         body.pdf-capture-mode #loadingOverlay,
         body.pdf-capture-mode #sealBanner,
+        body.pdf-capture-mode #aboutApp,
+        body.pdf-capture-mode .page-footer,
         body.pdf-capture-mode #pageTitle,
         body.pdf-capture-mode #appHeader,
         body.pdf-capture-mode #editFloatBtn,
@@ -1135,6 +1430,8 @@
             #particles,
             #loadingOverlay,
             #sealBanner,
+            #aboutApp,
+            .page-footer,
             #pageTitle,
             #appHeader {
                 display: none !important;
@@ -1175,10 +1472,30 @@
 
 <header id="appHeader" class="site-header">
     <div class="site-brand">
-        <div class="site-brand-main">マヤ暦セッションシート作成ツール</div>
-        <div class="site-brand-sub">Maya Calendar Session Maker</div>
+        <div class="app-logo">M</div>
+        <div class="site-brand-text">
+            <div class="site-brand-main">マヤ暦セッションシート</div>
+            <div class="site-brand-sub">Session Maker</div>
+        </div>
     </div>
-    <button id="editFloatBtn" onclick="openEditModal()">✏️ テキスト編集</button>
+    <nav class="header-nav" aria-label="ヘッダー">
+        <button type="button" class="header-link" onclick="scrollToAbout(event)">このwebアプリについて</button>
+        <div class="settings-menu" id="settingsMenu">
+            <button type="button" class="settings-trigger" onclick="toggleSettingsMenu(event)">設定</button>
+            <div class="settings-panel" role="menu" aria-label="設定">
+                <div class="settings-section">
+                    <div class="settings-heading">一般の設定項目</div>
+                    <div class="settings-item"><span>出力サイズ</span><span class="settings-status">A4横</span></div>
+                    <div class="settings-item"><span>スマホPDF</span><span class="settings-status">自動生成</span></div>
+                    <div class="settings-item"><span>プレビュー初期表示</span><span class="settings-status">通常</span></div>
+                </div>
+                <div class="settings-section">
+                    <div class="settings-heading">管理者の設定項目</div>
+                    <button type="button" class="admin-edit-btn" onclick="openAdminTextEditor(event)">テキスト編集</button>
+                </div>
+            </div>
+        </div>
+    </nav>
 </header>
 
 <!-- Loading overlay -->
@@ -1188,14 +1505,33 @@
 </div>
 
 
-<!-- Page title -->
-<div id="pageTitle">
-    <div class="title-jp">マヤ暦セッションメーカー</div>
-    <div class="title-en">Maya Calendar Session Maker</div>
-    <div class="title-ornament">
-        <div class="title-ornament-dot"></div>
+<section class="intro-section" id="aboutApp">
+    <div class="intro-copy">
+        <div class="intro-eyebrow">MAYA CALENDAR SESSION MAKER</div>
+        <h1 class="intro-title">マヤ暦セッションシート作成ツール</h1>
+        <p class="intro-text">生年月日またはKINから、セッション用の一枚シートをすばやく作成できます。</p>
     </div>
-</div>
+    <div class="sample-preview" aria-label="セッションシートの例">
+        <div class="sample-sheet-art">
+            <div class="sample-sheet-title">マヤ暦セッション exsampleさんのトリセツ</div>
+            <div class="sample-sheet-stats">
+                <div class="sample-stat">KIN 143</div>
+                <div class="sample-stat">音 13</div>
+            </div>
+            <div class="sample-columns">
+                <div class="sample-column">
+                    <div class="sample-column-head"><img src="ms3.png" alt="">青い夜</div>
+                    <div class="sample-lines"><span></span><span></span><span></span><span></span></div>
+                </div>
+                <div class="sample-column">
+                    <div class="sample-column-head"><img src="ms19.png" alt="">青い嵐</div>
+                    <div class="sample-lines"><span></span><span></span><span></span><span></span></div>
+                </div>
+            </div>
+        </div>
+        <a class="sample-preview-fallback" href="sample-session-sheet.pdf" target="_blank" rel="noopener">セッションシートの例を開く</a>
+    </div>
+</section>
 
 
 <!-- Input form -->
@@ -1718,12 +2054,38 @@ function setPreviewMode(mode, e) {
     }
 }
 
+function toggleSettingsMenu(e) {
+    if (e) addRipple(e.currentTarget, e);
+    document.getElementById('settingsMenu')?.classList.toggle('open');
+}
+
+function openAdminTextEditor(e) {
+    if (e) addRipple(e.currentTarget, e);
+    document.getElementById('settingsMenu')?.classList.remove('open');
+    openEditModal();
+}
+
+function scrollToAbout(e) {
+    if (e) addRipple(e.currentTarget, e);
+    const target = document.getElementById('aboutApp');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+document.addEventListener('click', (e) => {
+    const menu = document.getElementById('settingsMenu');
+    if (menu && !menu.contains(e.target)) menu.classList.remove('open');
+});
+
 function prepareSheetPreview() {
     setPreviewMode('normal');
     const banner = document.getElementById('sealBanner');
     const title = document.getElementById('pageTitle');
+    const intro = document.getElementById('aboutApp');
+    const footer = document.querySelector('.page-footer');
     if (banner) banner.style.display = 'none';
     if (title) title.style.display = 'none';
+    if (intro) intro.style.display = 'none';
+    if (footer) footer.style.display = 'none';
 }
 
 function fitTextToContainer(textEl, containerEl, maxPx, minPx) {
@@ -2152,8 +2514,12 @@ function resetForm(e) {
         form.style.transform = 'translateY(0)';
         const title2 = document.getElementById('pageTitle');
         if (title2) { title2.style.display='block'; title2.style.opacity='0'; void title2.offsetWidth; title2.style.transition='opacity 0.5s'; title2.style.opacity='1'; }
+        const intro2 = document.getElementById('aboutApp');
+        if (intro2) { intro2.style.display='grid'; intro2.style.opacity='0'; void intro2.offsetWidth; intro2.style.transition='opacity 0.5s'; intro2.style.opacity='1'; }
         const banner2 = document.getElementById('sealBanner');
         if (banner2) { banner2.style.display='block'; banner2.style.opacity='0'; void banner2.offsetWidth; banner2.style.transition='opacity 0.5s'; banner2.style.opacity='1'; }
+        const footer2 = document.querySelector('.page-footer');
+        if (footer2) footer2.style.display = 'block';
         document.getElementById('username').value    = '';
         document.getElementById('birthYear').value  = '';
         document.getElementById('birthMonth').value = '';
@@ -2221,6 +2587,8 @@ function resetForm(e) {
 
 <!-- Seal scroll banner -->
 <div id="sealBanner"><div class="seal-track"><div class="seal-item"><img src="ms1.png" alt="赤い竜"><span>赤い竜</span></div><div class="seal-item"><img src="ms2.png" alt="白い風"><span>白い風</span></div><div class="seal-item"><img src="ms3.png" alt="青い夜"><span>青い夜</span></div><div class="seal-item"><img src="ms4.png" alt="黄色い種"><span>黄色い種</span></div><div class="seal-item"><img src="ms5.png" alt="赤い蛇"><span>赤い蛇</span></div><div class="seal-item"><img src="ms6.png" alt="白い世界の橋渡し"><span>白い世界の橋渡し</span></div><div class="seal-item"><img src="ms7.png" alt="青い手"><span>青い手</span></div><div class="seal-item"><img src="ms8.png" alt="黄色い星"><span>黄色い星</span></div><div class="seal-item"><img src="ms9.png" alt="赤い月"><span>赤い月</span></div><div class="seal-item"><img src="ms10.png" alt="白い犬"><span>白い犬</span></div><div class="seal-item"><img src="ms11.png" alt="青い猿"><span>青い猿</span></div><div class="seal-item"><img src="ms12.png" alt="黄色い人"><span>黄色い人</span></div><div class="seal-item"><img src="ms13.png" alt="赤い空歩く人"><span>赤い空歩く人</span></div><div class="seal-item"><img src="ms14.png" alt="白い魔法使い"><span>白い魔法使い</span></div><div class="seal-item"><img src="ms15.png" alt="青い鷲"><span>青い鷲</span></div><div class="seal-item"><img src="ms16.png" alt="黄色い戦士"><span>黄色い戦士</span></div><div class="seal-item"><img src="ms17.png" alt="赤い地球"><span>赤い地球</span></div><div class="seal-item"><img src="ms18.png" alt="白い鏡"><span>白い鏡</span></div><div class="seal-item"><img src="ms19.png" alt="青い嵐"><span>青い嵐</span></div><div class="seal-item"><img src="ms20.png" alt="黄色い太陽"><span>黄色い太陽</span></div><div class="seal-item"><img src="ms1.png" alt="赤い竜"><span>赤い竜</span></div><div class="seal-item"><img src="ms2.png" alt="白い風"><span>白い風</span></div><div class="seal-item"><img src="ms3.png" alt="青い夜"><span>青い夜</span></div><div class="seal-item"><img src="ms4.png" alt="黄色い種"><span>黄色い種</span></div><div class="seal-item"><img src="ms5.png" alt="赤い蛇"><span>赤い蛇</span></div><div class="seal-item"><img src="ms6.png" alt="白い世界の橋渡し"><span>白い世界の橋渡し</span></div><div class="seal-item"><img src="ms7.png" alt="青い手"><span>青い手</span></div><div class="seal-item"><img src="ms8.png" alt="黄色い星"><span>黄色い星</span></div><div class="seal-item"><img src="ms9.png" alt="赤い月"><span>赤い月</span></div><div class="seal-item"><img src="ms10.png" alt="白い犬"><span>白い犬</span></div><div class="seal-item"><img src="ms11.png" alt="青い猿"><span>青い猿</span></div><div class="seal-item"><img src="ms12.png" alt="黄色い人"><span>黄色い人</span></div><div class="seal-item"><img src="ms13.png" alt="赤い空歩く人"><span>赤い空歩く人</span></div><div class="seal-item"><img src="ms14.png" alt="白い魔法使い"><span>白い魔法使い</span></div><div class="seal-item"><img src="ms15.png" alt="青い鷲"><span>青い鷲</span></div><div class="seal-item"><img src="ms16.png" alt="黄色い戦士"><span>黄色い戦士</span></div><div class="seal-item"><img src="ms17.png" alt="赤い地球"><span>赤い地球</span></div><div class="seal-item"><img src="ms18.png" alt="白い鏡"><span>白い鏡</span></div><div class="seal-item"><img src="ms19.png" alt="青い嵐"><span>青い嵐</span></div><div class="seal-item"><img src="ms20.png" alt="黄色い太陽"><span>黄色い太陽</span></div></div></div>
+
+<footer class="page-footer">Maya Calendar Session Maker</footer>
 
 </body>
 </html>
