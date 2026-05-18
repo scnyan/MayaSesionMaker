@@ -285,13 +285,19 @@ function setPreviewMode(mode, e) {
 }
 
 function toggleSettingsMenu(e) {
+    if (e) e.stopPropagation();
     if (e) addRipple(e.currentTarget, e);
-    document.getElementById('settingsMenu')?.classList.toggle('open');
+    const menu = document.getElementById('settingsMenu');
+    if (!menu) return;
+    const isOpen = menu.classList.toggle('open');
+    e?.currentTarget?.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
 
 function openAdminTextEditor(e) {
+    if (e) e.stopPropagation();
     if (e) addRipple(e.currentTarget, e);
     document.getElementById('settingsMenu')?.classList.remove('open');
+    document.querySelector('.settings-trigger')?.setAttribute('aria-expanded', 'false');
     openEditModal();
 }
 
@@ -309,7 +315,10 @@ function scrollToMaker(e) {
 
 document.addEventListener('click', (e) => {
     const menu = document.getElementById('settingsMenu');
-    if (menu && !menu.contains(e.target)) menu.classList.remove('open');
+    if (menu && !menu.contains(e.target)) {
+        menu.classList.remove('open');
+        document.querySelector('.settings-trigger')?.setAttribute('aria-expanded', 'false');
+    }
 });
 
 function prepareSheetPreview() {

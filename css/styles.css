@@ -33,6 +33,7 @@
             border-radius: 0;
             box-shadow: 0 10px 26px rgba(216,27,96,0.18);
             backdrop-filter: blur(12px);
+            transform: translateZ(0);
         }
         .app-logo {
             width: 112px;
@@ -74,6 +75,7 @@
         }
         .header-link,
         .settings-trigger {
+            position: relative;
             width: auto;
             border-radius: 8px;
             padding: 8px 14px;
@@ -82,6 +84,7 @@
             background: transparent;
             box-shadow: none;
             border: 0;
+            overflow: hidden;
         }
         .header-link:hover,
         .settings-trigger:hover {
@@ -98,16 +101,25 @@
             right: 0;
             top: calc(100% + 8px);
             width: 260px;
-            display: none;
+            display: block;
             padding: 14px;
             background: #fff;
             border: 1px solid #ffb6c1;
             border-radius: 8px;
             box-shadow: 0 18px 45px rgba(0,0,0,0.16);
             text-align: left;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-6px);
+            transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s linear 0.18s;
         }
         .settings-menu.open .settings-panel {
-            display: block;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+            transition-delay: 0s;
         }
         .settings-section + .settings-section {
             margin-top: 12px;
@@ -978,8 +990,7 @@
         }
 
         /* ── SEAL SCROLL BANNER ── */
-        #sealBanner,
-            #pageTitle {
+        #sealBanner {
             position: relative;
             z-index: 10;
             order: 2;
@@ -990,6 +1001,20 @@
             scrollbar-width: thin;
             scrollbar-color: rgba(216,27,96,0.28) transparent;
             touch-action: pan-x;
+            margin-top: 10px;
+            padding: 18px 0 6px;
+            background: transparent;
+            border: 0;
+            box-shadow: none;
+            mask-image: linear-gradient(90deg, transparent 0, #000 34px, #000 calc(100% - 34px), transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 34px, #000 calc(100% - 34px), transparent 100%);
+        }
+        #pageTitle {
+            position: relative;
+            z-index: 10;
+            order: 2;
+            width: 100%;
+            overflow: visible;
             margin-top: 10px;
             padding: 18px 0 6px;
             background: transparent;
@@ -1333,6 +1358,7 @@
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
                 justify-content: flex-start;
+                overscroll-behavior-inline: contain;
             }
             .header-nav::-webkit-scrollbar { display: none; }
             .header-link,
@@ -1342,15 +1368,22 @@
                 font-size: 11px;
                 padding: 7px 4px;
             }
+            .site-header .ripple {
+                display: none;
+            }
             .settings-panel {
                 position: fixed;
                 top: 58px;
                 right: 12px;
                 left: 12px;
                 width: auto;
+                z-index: 2000;
+                max-height: calc(100svh - 72px);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
             .intro-section {
-                min-height: calc(100vh - 76px);
+                min-height: auto;
                 gap: 20px;
                 padding: 30px 0 28px;
             }
@@ -1410,10 +1443,17 @@
                 margin-right: -12px;
                 padding-left: 12px;
                 padding-right: 12px;
+                mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+                -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
             }
             .seal-track {
                 gap: 38px;
-                animation-duration: 42s;
+                animation: none;
+                padding: 0 22px 8px;
+                transform: none;
+            }
+            .seal-item:nth-child(n+21) {
+                display: none;
             }
             .seal-item img {
                 width: 68px;
