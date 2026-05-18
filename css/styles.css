@@ -192,6 +192,26 @@
             max-width: 780px;
             margin: 0 auto;
         }
+        .intro-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            min-width: 152px;
+            margin-top: 28px;
+            padding: 13px 30px;
+            border-radius: 999px;
+            background: #ff8fa3;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 14px 28px rgba(216,27,96,0.2);
+        }
+        .intro-cta:hover {
+            background: #ff7890;
+            transform: translateY(-2px);
+            box-shadow: 0 18px 36px rgba(216,27,96,0.24);
+        }
         @keyframes introRise {
             from { opacity: 0; transform: translateY(32px); }
             to { opacity: 1; transform: translateY(0); }
@@ -482,7 +502,7 @@
             text-align: center;
             width: 340px;
             align-self: center;
-            margin-bottom: 20px;
+            margin: clamp(72px, 10vw, 128px) auto clamp(64px, 9vw, 112px);
             animation: slideDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
         @keyframes slideDown {
@@ -964,12 +984,24 @@
             z-index: 10;
             order: 2;
             width: 100%;
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(216,27,96,0.28) transparent;
+            touch-action: pan-x;
             margin-top: 10px;
             padding: 18px 0 6px;
             background: transparent;
             border: 0;
             box-shadow: none;
+        }
+        #sealBanner::-webkit-scrollbar {
+            height: 6px;
+        }
+        #sealBanner::-webkit-scrollbar-thumb {
+            background: rgba(216,27,96,0.24);
+            border-radius: 999px;
         }
 
         /* 左右フェード */
@@ -991,8 +1023,11 @@
             gap: 46px;
             width: max-content;
             animation: scrollRight 35s linear infinite;
+            padding: 0 18px 8px;
         }
         .seal-track:hover { animation-play-state: paused; }
+        #sealBanner:active .seal-track,
+        #sealBanner:focus-within .seal-track { animation-play-state: paused; }
 
         @keyframes scrollLeft {
             0%   { transform: translateX(0); }
@@ -1276,16 +1311,37 @@
             .site-header {
                 width: 100%;
                 margin: 0;
-                padding: 10px 12px;
+                padding: 9px 10px;
+                gap: 8px;
             }
-            .site-brand { gap: 8px; }
+            .site-brand {
+                gap: 0;
+                flex: 0 0 54px;
+                width: 54px;
+                min-width: 54px;
+            }
             .site-brand-text { display: none; }
-            .app-logo { width: 68px; height: auto; }
+            .app-logo { width: 54px; height: auto; }
             .site-brand-main { font-size: 13px; }
             .site-brand-sub { font-size: 9px; letter-spacing: 2px; }
-            .header-nav { gap: 4px; }
+            .header-nav {
+                flex: 1 1 auto;
+                min-width: 0;
+                gap: 8px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                justify-content: flex-start;
+            }
+            .header-nav::-webkit-scrollbar { display: none; }
             .header-link,
-            .settings-trigger { font-size: 11px; padding: 7px 8px; }
+            .settings-trigger {
+                flex: 0 0 auto;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 7px 4px;
+            }
             .settings-panel {
                 position: fixed;
                 top: 58px;
@@ -1304,6 +1360,12 @@
             .intro-text {
                 font-size: 13px;
                 margin: 0 auto;
+            }
+            .intro-cta {
+                margin-top: 22px;
+                min-width: 136px;
+                padding: 11px 24px;
+                font-size: 14px;
             }
             .sample-gallery {
                 min-height: 300px;
@@ -1342,13 +1404,28 @@
             .title-en { font-size: 9px; letter-spacing: 3px; }
 
             /* ── Seal banner ── */
-            #sealBanner { width: 100%; }
+            #sealBanner {
+                width: 100%;
+                margin-left: -12px;
+                margin-right: -12px;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+            .seal-track {
+                gap: 38px;
+                animation-duration: 42s;
+            }
+            .seal-item img {
+                width: 68px;
+                height: 68px;
+            }
 
             /* ── Input form ── */
             .input-container {
                 width: 100%;
                 max-width: 100%;
                 padding: 20px 16px;
+                margin: 56px auto 64px;
             }
 
             /* ── Date input: iOSの灰色ボックス解消 ── */
