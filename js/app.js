@@ -287,17 +287,29 @@ function setPreviewMode(mode, e) {
 function toggleSettingsMenu(e) {
     if (e) e.stopPropagation();
     if (e) addRipple(e.currentTarget, e);
-    const menu = document.getElementById('settingsMenu');
-    if (!menu) return;
-    const isOpen = menu.classList.toggle('open');
+    const overlay = document.getElementById('settingsOverlay');
+    if (!overlay) return;
+    const isOpen = !overlay.classList.contains('open');
+    overlay.classList.toggle('open', isOpen);
+    overlay.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    document.body.classList.toggle('settings-open', isOpen);
     e?.currentTarget?.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+
+function closeSettingsMenu(e) {
+    if (e) e.stopPropagation();
+    const overlay = document.getElementById('settingsOverlay');
+    overlay?.classList.remove('open');
+    overlay?.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('settings-open');
+    document.getElementById('settingsMenu')?.classList.remove('open');
+    document.querySelector('.settings-trigger')?.setAttribute('aria-expanded', 'false');
 }
 
 function openAdminTextEditor(e) {
     if (e) e.stopPropagation();
     if (e) addRipple(e.currentTarget, e);
-    document.getElementById('settingsMenu')?.classList.remove('open');
-    document.querySelector('.settings-trigger')?.setAttribute('aria-expanded', 'false');
+    closeSettingsMenu(e);
     openEditModal();
 }
 
@@ -317,7 +329,6 @@ document.addEventListener('click', (e) => {
     const menu = document.getElementById('settingsMenu');
     if (menu && !menu.contains(e.target)) {
         menu.classList.remove('open');
-        document.querySelector('.settings-trigger')?.setAttribute('aria-expanded', 'false');
     }
 });
 

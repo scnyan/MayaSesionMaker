@@ -120,6 +120,62 @@
             transform: translateY(0);
             transition-delay: 0s;
         }
+        .settings-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 84px 18px 24px;
+            background: rgba(55, 20, 32, 0.28);
+        }
+        .settings-overlay.open {
+            display: flex;
+        }
+        .settings-dialog {
+            width: min(420px, 100%);
+            max-height: calc(100svh - 108px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 18px;
+            border-radius: 8px;
+            border: 1px solid #ffb6c1;
+            background: #fff;
+            box-shadow: 0 24px 70px rgba(0,0,0,0.22);
+            color: #333;
+        }
+        .settings-dialog-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .settings-dialog-head h2 {
+            color: #d81b60;
+            font-size: 18px;
+            line-height: 1.2;
+        }
+        .settings-close {
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            border-radius: 50%;
+            background: #fff0f5;
+            color: #d81b60;
+            font-size: 24px;
+            line-height: 1;
+            box-shadow: none;
+        }
+        .settings-close:hover {
+            background: #ffe0e8;
+            transform: none;
+            box-shadow: none;
+        }
+        body.settings-open {
+            overflow: hidden;
+        }
         .settings-section + .settings-section {
             margin-top: 12px;
             padding-top: 12px;
@@ -1355,17 +1411,16 @@
                 display: none;
             }
             .settings-panel {
-                position: fixed;
-                top: 58px;
-                right: 12px;
-                left: 12px;
-                width: auto;
-                z-index: 2000;
-                max-height: calc(100svh - 72px);
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                transform: none;
-                transition: none;
+                display: none;
+            }
+            .settings-overlay {
+                padding: 68px 12px 18px;
+                align-items: flex-start;
+                background: rgba(55, 20, 32, 0.32);
+            }
+            .settings-dialog {
+                max-height: calc(100svh - 86px);
+                padding: 16px;
             }
             .intro-section {
                 min-height: auto;

@@ -39,6 +39,23 @@
     </nav>
 </header>
 
+<div id="settingsOverlay" class="settings-overlay" onclick="closeSettingsMenu(event)" aria-hidden="true">
+    <div class="settings-dialog" role="dialog" aria-modal="true" aria-label="設定" onclick="event.stopPropagation()">
+        <div class="settings-dialog-head">
+            <h2>設定</h2>
+            <button type="button" class="settings-close" onclick="closeSettingsMenu(event)" aria-label="設定を閉じる">×</button>
+        </div>
+        <div class="settings-section">
+            <div class="settings-heading">一般の設定項目</div>
+            <div class="settings-item"><span>なし</span></div>
+        </div>
+        <div class="settings-section">
+            <div class="settings-heading">管理者の設定項目</div>
+            <button type="button" class="admin-edit-btn" onclick="openAdminTextEditor(event)">テキスト編集</button>
+        </div>
+    </div>
+</div>
+
 <!-- Loading overlay -->
 <div id="loadingOverlay">
     <div class="loader-ring"></div>
