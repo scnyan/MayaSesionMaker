@@ -15,8 +15,44 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 20px 20px 120px;
+            padding: 0 20px 120px;
             overflow-x: hidden;
+        }
+
+        .site-header {
+            position: relative;
+            z-index: 20;
+            width: min(100%, 1120px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin: 18px 0 18px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.78);
+            border: 1px solid rgba(255,182,193,0.8);
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(255,143,163,0.16);
+            backdrop-filter: blur(10px);
+        }
+        .site-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+        .site-brand-main {
+            color: #333;
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        .site-brand-sub {
+            color: #c0737a;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
 
         /* ── PARTICLE BACKGROUND ── */
@@ -46,12 +82,13 @@
         .input-container {
             position: relative;
             z-index: 10;
-            background-color: white;
-            padding: 30px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,250,251,0.98));
+            padding: 28px 26px;
             border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,182,193,0.75);
+            box-shadow: 0 16px 36px rgba(216,27,96,0.11);
             text-align: center;
-            width: 300px;
+            width: 340px;
             margin-bottom: 20px;
             animation: slideDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
@@ -60,22 +97,44 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        h1.form-title { color: #333; font-size: 20px; margin-bottom: 15px; }
+        h1.form-title { color: #333; font-size: 21px; margin-bottom: 18px; }
 
-        input[type="text"], input[type="date"] {
-            padding: 10px;
+        input[type="text"], input[type="date"], select {
+            padding: 11px 12px;
             font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 1px solid #f0b8c2;
+            border-radius: 6px;
             margin-bottom: 15px;
             width: 100%;
             font-family: inherit;
+            background-color: #fff;
+            color: #333;
             transition: border-color 0.25s, box-shadow 0.25s;
             outline: none;
         }
-        input[type="text"]:focus, input[type="date"]:focus {
+        input[type="text"]:focus, input[type="date"]:focus, select:focus {
             border-color: #ff8fa3;
             box-shadow: 0 0 0 3px rgba(255,143,163,0.2);
+        }
+        .date-selects {
+            display: grid;
+            grid-template-columns: 1.25fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .date-selects select {
+            margin-bottom: 0;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image:
+                linear-gradient(45deg, transparent 50%, #d81b60 50%),
+                linear-gradient(135deg, #d81b60 50%, transparent 50%);
+            background-position:
+                calc(100% - 16px) 50%,
+                calc(100% - 10px) 50%;
+            background-size: 6px 6px, 6px 6px;
+            background-repeat: no-repeat;
+            padding-right: 26px;
         }
 
         button {
@@ -108,6 +167,28 @@
         .pdf-btn:hover { background-color: #2b74d8; }
         .reset-btn { background-color: #999; margin-top: 10px; width: auto; padding: 10px 20px; font-size: 14px; }
         .reset-btn:hover { background-color: #777; }
+        .layout-btn {
+            background: #fff;
+            color: #d81b60;
+            border: 1px solid #ffb6c1;
+            width: auto;
+            padding: 8px 14px;
+            font-size: 12px;
+            box-shadow: none;
+        }
+        .layout-btn.active {
+            background: #ff8fa3;
+            color: #fff;
+            border-color: #ff8fa3;
+        }
+        .layout-btn:hover {
+            background: #fff0f5;
+            transform: none;
+            box-shadow: none;
+        }
+        .layout-btn.active:hover {
+            background: #ff8fa3;
+        }
         /* タッチデバイス向け：hoverの誤発火を防ぐ */
         @media (hover: none) {
             button:hover { transform: none !important; box-shadow: none !important; }
@@ -122,8 +203,19 @@
             z-index: 10;
             margin-bottom: 15px;
             display: none;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
             gap: 10px;
             animation: fadeIn 0.5s ease both;
+        }
+        .preview-mode-toggle {
+            display: none;
+            gap: 6px;
+            padding: 4px;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid #ffb6c1;
+            border-radius: 8px;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(8px); }
@@ -211,12 +303,6 @@
         .stats-val   { font-size: 42px; font-weight: bold; color: #d81b60; line-height: 1; }
 
         /* Number count-up effect */
-        .stats-val.counting { animation: countPulse 0.08s ease infinite alternate; }
-        @keyframes countPulse {
-            from { transform: scale(1); }
-            to   { transform: scale(1.04); }
-        }
-
         /* ── MAIN CONTENT ── */
         .main-content {
             flex: 1;
@@ -561,18 +647,19 @@
 
         /* ── TEXT EDITOR ── */
         #editFloatBtn {
-            position: fixed;
-            bottom: 24px; right: 24px;
+            position: static;
             z-index: 200;
             background: #fff; color: #d81b60;
             border: 2px solid #ffb6c1;
-            border-radius: 50px;
+            border-radius: 8px;
             padding: 8px 18px;
             font-size: 13px; font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 16px rgba(255,143,163,0.35);
+            box-shadow: 0 3px 12px rgba(255,143,163,0.22);
             transition: all 0.2s;
             display: flex; align-items: center; gap: 6px;
+            flex: 0 0 auto;
+            white-space: nowrap;
             width: auto;
         }
         #editFloatBtn:hover {
@@ -798,6 +885,13 @@
                 padding: 12px 12px 100px;
                 align-items: stretch;
             }
+            .site-header {
+                width: 100%;
+                margin: 0 0 12px;
+                padding: 10px 12px;
+            }
+            .site-brand-main { font-size: 13px; }
+            .site-brand-sub { font-size: 9px; letter-spacing: 2px; }
 
             /* ── Page title ── */
             #pageTitle {
@@ -839,11 +933,12 @@
                 width: 100%;
                 justify-content: center;
             }
+            .preview-mode-toggle { display: flex; }
 
             /* ═══════════════════════════════════════
                #printArea: A4固定サイズ → 縦スクロール
                ═══════════════════════════════════════ */
-            #printArea {
+            body.fit-preview-mode #printArea {
                 width: 100% !important;
                 height: auto !important;
                 min-height: unset !important;
@@ -854,17 +949,17 @@
             }
 
             /* ── Sheet header ── */
-            .sheet-header { margin-bottom: 0; }
-            .sheet-title  { font-size: 18px; line-height: 1.3; }
-            .sheet-date   { font-size: 14px; }
+            body.fit-preview-mode .sheet-header { margin-bottom: 0; }
+            body.fit-preview-mode .sheet-title  { font-size: 18px; line-height: 1.3; }
+            body.fit-preview-mode .sheet-date   { font-size: 14px; }
 
             /* ── Stats bar: KIN と音を縦並びに ── */
-            .stats-bar {
+            body.fit-preview-mode .stats-bar {
                 flex-direction: column;
                 gap: 10px;
                 padding: 12px;
             }
-            .stats-item.kin-box {
+            body.fit-preview-mode .stats-item.kin-box {
                 border-right: none;
                 border-bottom: 2px dashed #ffb6c1;
                 padding-right: 0;
@@ -874,66 +969,71 @@
                 gap: 16px;
                 align-items: center;
             }
-            .stats-item.tone-box {
+            body.fit-preview-mode .stats-item.tone-box {
                 padding-left: 0;
                 flex-wrap: wrap;
                 gap: 10px;
             }
-            .stats-label { font-size: 13px; }
-            .stats-val   { font-size: 34px; }
-            .tone-desc   { font-size: 13px; padding: 0; }
-            .tone-number-group { min-width: 60px; }
+            body.fit-preview-mode .stats-label { font-size: 13px; }
+            body.fit-preview-mode .stats-val   { font-size: 34px; }
+            body.fit-preview-mode .tone-desc   { font-size: 13px; padding: 0; }
+            body.fit-preview-mode .tone-number-group { min-width: 60px; }
 
             /* ── Main content: 2カラム → 縦1列 ── */
-            .main-content {
+            body.fit-preview-mode .main-content {
                 flex-direction: column !important;
                 gap: 12px;
                 flex: none;
             }
 
             /* ── Seal columns ── */
-            .seal-column { padding: 10px; }
-            .col-header  { gap: 10px; }
-            .col-header img { width: 56px; height: 56px; }
-            .col-label   { font-size: 11px; }
-            .col-name    { font-size: 20px; }
-            .chakra-tag  { font-size: 11px; padding: 3px 6px; }
-            .col-title-group { flex-direction: column; gap: 6px; }
-            .title-right { width: 100%; }
-            .chakra-subtitle { font-size: 10px; }
-            .chakra-text     { font-size: 12px; }
-            .desc-box { font-size: 13px; overflow: visible; flex: none; }
-            .relations-box { flex-wrap: wrap; gap: 6px; }
-            .rel-badge { font-size: 11px; padding: 4px 8px; }
-            .rel-badge span { font-size: 13px; }
+            body.fit-preview-mode .seal-column {
+                padding: 12px;
+                border-radius: 8px;
+                box-shadow: 0 6px 18px rgba(255,143,163,0.10);
+            }
+            body.fit-preview-mode .col-header  { gap: 10px; align-items: flex-start; }
+            body.fit-preview-mode .col-header img { width: 56px; height: 56px; }
+            body.fit-preview-mode .col-label   { font-size: 11px; }
+            body.fit-preview-mode .col-name    { font-size: 20px; }
+            body.fit-preview-mode .chakra-tag  { font-size: 11px; padding: 3px 6px; }
+            body.fit-preview-mode .col-title-group { flex-direction: column; gap: 7px; }
+            body.fit-preview-mode .title-right { width: 100%; }
+            body.fit-preview-mode .theme-wrapper { padding: 8px 10px; }
+            body.fit-preview-mode .chakra-subtitle { font-size: 10px; }
+            body.fit-preview-mode .chakra-text     { font-size: 12px; }
+            body.fit-preview-mode .desc-box { font-size: 13px; overflow: visible; flex: none; line-height: 1.55; }
+            body.fit-preview-mode .relations-box { flex-wrap: wrap; gap: 6px; justify-content: flex-start; }
+            body.fit-preview-mode .rel-badge { font-size: 11px; padding: 4px 8px; }
+            body.fit-preview-mode .rel-badge span { font-size: 13px; }
 
             /* ── Footer: 縦1列 ── */
-            .footer-area {
+            body.fit-preview-mode .footer-area {
                 flex-direction: column !important;
                 flex: none !important;
                 gap: 10px;
             }
-            .footer-left { gap: 10px; }
-            .special-kin-section {
+            body.fit-preview-mode .footer-left { gap: 10px; }
+            body.fit-preview-mode .special-kin-section {
                 width: 100% !important;
                 flex-direction: row;
                 gap: 10px;
             }
-            .special-box { flex: 1; }
+            body.fit-preview-mode .special-box { flex: 1; border-radius: 8px; }
 
-            .eki-title, .yearly-title { font-size: 13px; }
-            .eki-name  { font-size: 17px; }
-            .eki-desc  { font-size: 13px; }
-            .yearly-period { font-size: 13px; }
-            .yearly-era    { font-size: 15px; }
-            .yearly-kin-val { font-size: 22px; }
-            .yearly-kin-label { font-size: 11px; }
-            .sp-label { font-size: 12px; }
-            .sp-val   { font-size: 22px; }
+            body.fit-preview-mode .eki-title,
+            body.fit-preview-mode .yearly-title { font-size: 13px; }
+            body.fit-preview-mode .eki-name  { font-size: 17px; }
+            body.fit-preview-mode .eki-desc  { font-size: 13px; }
+            body.fit-preview-mode .yearly-period { font-size: 13px; }
+            body.fit-preview-mode .yearly-era    { font-size: 15px; }
+            body.fit-preview-mode .yearly-kin-val { font-size: 22px; }
+            body.fit-preview-mode .yearly-kin-label { font-size: 11px; }
+            body.fit-preview-mode .sp-label { font-size: 12px; }
+            body.fit-preview-mode .sp-val   { font-size: 22px; }
 
             /* ── Edit float button ── */
             #editFloatBtn {
-                bottom: 16px; right: 12px;
                 font-size: 12px;
                 padding: 7px 14px;
             }
@@ -974,6 +1074,7 @@
         body.pdf-capture-mode #loadingOverlay,
         body.pdf-capture-mode #sealBanner,
         body.pdf-capture-mode #pageTitle,
+        body.pdf-capture-mode #appHeader,
         body.pdf-capture-mode #editFloatBtn,
         body.pdf-capture-mode #editOverlay,
         body.pdf-capture-mode #tokenOverlay,
@@ -1034,7 +1135,8 @@
             #particles,
             #loadingOverlay,
             #sealBanner,
-            #pageTitle {
+            #pageTitle,
+            #appHeader {
                 display: none !important;
             }
             #printArea {
@@ -1071,6 +1173,14 @@
 <!-- Floating particles -->
 <div id="particles"></div>
 
+<header id="appHeader" class="site-header">
+    <div class="site-brand">
+        <div class="site-brand-main">マヤ暦セッションシート作成ツール</div>
+        <div class="site-brand-sub">Maya Calendar Session Maker</div>
+    </div>
+    <button id="editFloatBtn" onclick="openEditModal()">✏️ テキスト編集</button>
+</header>
+
 <!-- Loading overlay -->
 <div id="loadingOverlay">
     <div class="loader-ring"></div>
@@ -1101,7 +1211,11 @@
     <!-- 生年月日パネル -->
     <div id="panelDate" class="tab-panel">
         <input type="text" id="username" placeholder="お名前">
-        <input type="date" id="birthdate" max="9999-12-31">
+        <div class="date-selects" aria-label="生年月日">
+            <select id="birthYear" aria-label="年"></select>
+            <select id="birthMonth" aria-label="月"></select>
+            <select id="birthDay" aria-label="日"></select>
+        </div>
         <button onclick="handleCreateClick(event)">シートを作成する</button>
     </div>
 
@@ -1116,6 +1230,10 @@
 
 <!-- Toolbar -->
 <div id="toolbar">
+    <div class="preview-mode-toggle" aria-label="プレビュー表示">
+        <button type="button" class="layout-btn active" id="layoutNormalBtn" onclick="setPreviewMode('normal', event)">通常</button>
+        <button type="button" class="layout-btn" id="layoutFitBtn" onclick="setPreviewMode('fit', event)">横幅に合わせる</button>
+    </div>
     <button class="pdf-btn" onclick="downloadPDF(event)">印刷する</button>
     <button class="reset-btn" onclick="resetForm(event)">作り直す</button>
 </div>
@@ -1540,7 +1658,98 @@ function showToast(msg, type = 'success') {
 })();
 
 /* ── APP INIT ── */
+initDateSelects();
 initApp();
+
+function initDateSelects() {
+    const yearEl = document.getElementById('birthYear');
+    const monthEl = document.getElementById('birthMonth');
+    const dayEl = document.getElementById('birthDay');
+    if (!yearEl || !monthEl || !dayEl) return;
+
+    const currentYear = new Date().getFullYear();
+    yearEl.innerHTML = '<option value="">年</option>';
+    for (let y = currentYear; y >= 1900; y--) {
+        yearEl.insertAdjacentHTML('beforeend', `<option value="${y}">${y}年</option>`);
+    }
+    monthEl.innerHTML = '<option value="">月</option>';
+    for (let m = 1; m <= 12; m++) {
+        monthEl.insertAdjacentHTML('beforeend', `<option value="${m}">${m}月</option>`);
+    }
+
+    function updateDays() {
+        const selected = dayEl.value;
+        const y = parseInt(yearEl.value, 10) || 2000;
+        const m = parseInt(monthEl.value, 10) || 1;
+        const maxDay = new Date(y, m, 0).getDate();
+        dayEl.innerHTML = '<option value="">日</option>';
+        for (let d = 1; d <= maxDay; d++) {
+            dayEl.insertAdjacentHTML('beforeend', `<option value="${d}">${d}日</option>`);
+        }
+        if (selected && parseInt(selected, 10) <= maxDay) dayEl.value = selected;
+    }
+
+    yearEl.addEventListener('change', updateDays);
+    monthEl.addEventListener('change', updateDays);
+    updateDays();
+}
+
+function getBirthDateParts() {
+    const birthYear = parseInt(document.getElementById('birthYear').value, 10);
+    const birthMonth = parseInt(document.getElementById('birthMonth').value, 10);
+    const birthDay = parseInt(document.getElementById('birthDay').value, 10);
+    if (!birthYear || !birthMonth || !birthDay) return null;
+    return { birthYear, birthMonth, birthDay };
+}
+
+function setPreviewMode(mode, e) {
+    if (e) addRipple(e.currentTarget, e);
+    const isFit = mode === 'fit';
+    document.body.classList.toggle('fit-preview-mode', isFit);
+    document.getElementById('layoutNormalBtn')?.classList.toggle('active', !isFit);
+    document.getElementById('layoutFitBtn')?.classList.toggle('active', isFit);
+    if (isFit) {
+        document.querySelectorAll('.desc-box, .chakra-text').forEach(el => {
+            el.style.fontSize = '';
+            el.style.lineHeight = '';
+        });
+    } else if (getComputedStyle(document.getElementById('printArea')).display !== 'none') {
+        fitSheetText();
+    }
+}
+
+function prepareSheetPreview() {
+    setPreviewMode('normal');
+    const banner = document.getElementById('sealBanner');
+    const title = document.getElementById('pageTitle');
+    if (banner) banner.style.display = 'none';
+    if (title) title.style.display = 'none';
+}
+
+function fitTextToContainer(textEl, containerEl, maxPx, minPx) {
+    if (!textEl || !containerEl) return;
+    textEl.style.fontSize = maxPx + 'px';
+    textEl.style.lineHeight = '';
+    let size = maxPx;
+    while (size > minPx && containerEl.scrollHeight > containerEl.clientHeight + 1) {
+        size -= 0.5;
+        textEl.style.fontSize = size + 'px';
+    }
+}
+
+function fitSheetText() {
+    document.querySelectorAll('.desc-box').forEach(el => {
+        el.style.fontSize = '20px';
+        let size = 20;
+        while (size > 12 && el.scrollHeight > el.clientHeight + 1) {
+            size -= 0.5;
+            el.style.fontSize = size + 'px';
+        }
+    });
+    document.querySelectorAll('.theme-wrapper').forEach(wrapper => {
+        fitTextToContainer(wrapper.querySelector('.chakra-text'), wrapper, 13, 9.5);
+    });
+}
 
 /* ── RIPPLE ── */
 function addRipple(btn, e) {
@@ -1551,20 +1760,6 @@ function addRipple(btn, e) {
     r.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX-rect.left-d/2}px;top:${e.clientY-rect.top-d/2}px`;
     btn.appendChild(r);
     r.addEventListener('animationend', () => r.remove());
-}
-
-/* ── COUNTER ANIMATION ── */
-function animateCount(el, target, duration = 700) {
-    const start = performance.now();
-    el.classList.add('counting');
-    function step(now) {
-        const p = Math.min((now - start) / duration, 1);
-        const ease = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(ease * target);
-        if (p < 1) requestAnimationFrame(step);
-        else { el.textContent = target; el.classList.remove('counting'); }
-    }
-    requestAnimationFrame(step);
 }
 
 /* ── KIN CALCULATION (identical to original) ── */
@@ -1594,12 +1789,9 @@ function getBaseKinData(targetYear, month, day) {
 /* ── MAIN CALCULATE ── */
 function calculateKin() {
     const name    = document.getElementById('username').value || 'ゲスト';
-    const dateStr = document.getElementById('birthdate').value;
-    if (!dateStr) { alert("生年月日を選択してください。"); return; }
-    const parts = dateStr.split('-');
-    const birthYear  = parseInt(parts[0],10);
-    const birthMonth = parseInt(parts[1],10);
-    const birthDay   = parseInt(parts[2],10);
+    const birthParts = getBirthDateParts();
+    if (!birthParts) { alert("生年月日を選択してください。"); return; }
+    const { birthYear, birthMonth, birthDay } = birthParts;
     const bd = getBaseKinData(birthYear, birthMonth, birthDay);
 
     let mirror   = 261 - bd.kin;
@@ -1658,6 +1850,8 @@ function calculateKin() {
     document.getElementById('yearlyPeriod').innerText = tgtYear+'年'+birthMonth+'月'+birthDay+'日 〜';
     document.getElementById('yearlyKin').innerText = yearlyKin;
     document.getElementById('yearlyEra').innerText = yearlyEraColor+'の時代 '+yearlyTone+'年目';
+    document.getElementById('resKin').innerText = bd.kin;
+    document.getElementById('resTone').innerText = bd.tone;
 
     // Show sheet with animation
     const form    = document.getElementById('inputForm');
@@ -1669,17 +1863,14 @@ function calculateKin() {
     form.style.opacity = '0';
     form.style.transform = 'translateY(-16px)';
     setTimeout(() => {
+        prepareSheetPreview();
         form.style.display = 'none';
         toolbar.style.display = 'flex';
         area.style.display = 'flex';
+        fitSheetText();
         // Trigger reflow then add class
         void area.offsetWidth;
         area.classList.add('revealed');
-        // Animate numbers after sheet appears
-        setTimeout(() => {
-            animateCount(document.getElementById('resKin'),  bd.kin,  800);
-            animateCount(document.getElementById('resTone'), bd.tone, 600);
-        }, 350);
     }, 420);
 }
 
@@ -1759,9 +1950,12 @@ async function createA4LandscapePdf() {
 
     const previousScrollX = window.scrollX;
     const previousScrollY = window.scrollY;
+    const wasFitPreview = document.body.classList.contains('fit-preview-mode');
+    document.body.classList.remove('fit-preview-mode');
     document.body.classList.add('pdf-capture-mode');
     window.scrollTo(0, 0);
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    fitSheetText();
 
     try {
         const canvas = await window.html2canvas(area, {
@@ -1786,6 +1980,13 @@ async function createA4LandscapePdf() {
         return pdf.output('blob');
     } finally {
         document.body.classList.remove('pdf-capture-mode');
+        if (wasFitPreview) {
+            document.body.classList.add('fit-preview-mode');
+            document.querySelectorAll('.desc-box, .chakra-text').forEach(el => {
+                el.style.fontSize = '';
+                el.style.lineHeight = '';
+            });
+        }
         window.scrollTo(previousScrollX, previousScrollY);
     }
 }
@@ -1899,6 +2100,8 @@ function handleKinClick(e) {
     document.getElementById('yearlyPeriod').innerText = '-';
     document.getElementById('yearlyKin').innerText    = '-';
     document.getElementById('yearlyEra').innerText    = '（生年月日入力で算出）';
+    document.getElementById('resKin').innerText = kin;
+    document.getElementById('resTone').innerText = tone;
 
     // アニメーション表示
     const form    = document.getElementById('inputForm');
@@ -1910,16 +2113,14 @@ function handleKinClick(e) {
     form.style.opacity = '0';
     form.style.transform = 'translateY(-16px)';
     setTimeout(() => {
+        prepareSheetPreview();
         form.style.display = 'none';
-        if (title) { title.style.transition='opacity 0.3s'; title.style.opacity='0'; setTimeout(()=>{ title.style.display='none'; title.style.opacity=''; title.style.transition=''; },300); }
+        if (title) { title.style.display='none'; title.style.opacity=''; title.style.transition=''; }
         toolbar.style.display = 'flex';
         area.style.display = 'flex';
+        fitSheetText();
         void area.offsetWidth;
         area.classList.add('revealed');
-        setTimeout(() => {
-            animateCount(document.getElementById('resKin'),  kin,  800);
-            animateCount(document.getElementById('resTone'), tone, 600);
-        }, 350);
     }, 420);
 }
 
@@ -1938,6 +2139,9 @@ function resetForm(e) {
         area.style.opacity  = '';
         area.style.transform = '';
         area.classList.remove('revealed');
+        document.body.classList.remove('fit-preview-mode');
+        document.getElementById('layoutNormalBtn')?.classList.add('active');
+        document.getElementById('layoutFitBtn')?.classList.remove('active');
         toolbar.style.display = 'none';
         form.style.display = 'block';
         form.style.opacity = '0';
@@ -1951,7 +2155,9 @@ function resetForm(e) {
         const banner2 = document.getElementById('sealBanner');
         if (banner2) { banner2.style.display='block'; banner2.style.opacity='0'; void banner2.offsetWidth; banner2.style.transition='opacity 0.5s'; banner2.style.opacity='1'; }
         document.getElementById('username').value    = '';
-        document.getElementById('birthdate').value  = '';
+        document.getElementById('birthYear').value  = '';
+        document.getElementById('birthMonth').value = '';
+        document.getElementById('birthDay').value   = '';
         document.getElementById('usernameKin').value = '';
         document.getElementById('kinInput').value    = '';
         switchTab('date', null);
@@ -1960,8 +2166,6 @@ function resetForm(e) {
 </script>
 
 <!-- ✏️ テキスト編集ボタン（常時表示） -->
-<button id="editFloatBtn" onclick="openEditModal()">✏️ テキスト編集</button>
-
 <!-- テキスト編集モーダル -->
 <div id="editOverlay">
     <div id="editPanel">
